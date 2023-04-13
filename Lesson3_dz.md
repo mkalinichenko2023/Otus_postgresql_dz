@@ -1,10 +1,11 @@
 # Домашнее задание к уроку 3.
 1. Создаем ВМ с Ubuntu 20.04/22.04 в Yandex Cloud
-![Фото](/Less2_p2.jpg)
+![Фото](/Less2_p1.jpg)
+![Фото](/Less2_p1.jpg)
 1. Поставим на новой ВМ Docker Engine
-
+![Фото](/Less2_p3.jpg)
 1. Создим docker-сеть 
-
+![Фото](/Less2_p4.jpg)
 1. Развернем контейнер с PostgreSQL 15 смонтировав в него /var/lib/postgresql
 
 1. Развернем контейнер с клиентом postgres
