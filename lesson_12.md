@@ -12,21 +12,21 @@
 ![Шаг4](/12_6_postgresql_conf1.jpg)  
 ![Шаг4](/12_7_postgresql_conf2.jpg)  
 В файле postgresql.conf сделала следующие настройки:      
-   maintenance_work_mem            1GB   
-   shared_buffers                  1GB   
-   work_mem                        16MB   
-   checkpoint_completion_target    0.9   
-   checkpoint_timeout              30min   
-   min_wal_size                    500MB   
-   max_wal_size                    5GB   
-   bgwriter_lru_maxpages           1000   
-   bgwriter_lru_multiplier         10.0   
-   effective_cache_size            12GB   
-   random_page_cost                1.0   
-   wal_compression                 on   
-   fsync                           off   
-   full_page_writes                off   
-   synchronous_commit              off   
++ maintenance_work_mem            1GB   
++ shared_buffers                  1GB   
++ work_mem                        16MB   
++ checkpoint_completion_target    0.9   
++ checkpoint_timeout              30min   
++ min_wal_size                    500MB   
++ max_wal_size                    5GB   
++ bgwriter_lru_maxpages           1000   
++ bgwriter_lru_multiplier         10.0   
++ effective_cache_size            12GB   
++ random_page_cost                1.0   
++ wal_compression                 on   
++ fsync                           off   
++ full_page_writes                off   
++ synchronous_commit              off   
 1. Перезагрузила кластер.   
 ![Шаг4](/12_8_restart.jpg)  
 1. Провела тестирование работы Postgres в новой конфигурации.   
@@ -42,4 +42,4 @@
 ***synchronous_commit*** - позволяет серверу не ждать сохранения данных на диске, прежде чем сообщить клиенту об успешном завершении операции.   
 ***full_page_writes*** - этот параметр во включённом состоянии заставляет Postgres записывать в WAL всё содержимое каждой страницы при первом изменении этой страницы после контрольной точки.   
 ***effective_cache_size*** - определяет для планировщика, сколько ОП у него в запасе.   
-Задачу под звездочкой (аналогично протестировать через утилиту sysbench-tpcc) постараюсь сделать позже.
+1. Задачу под звездочкой (аналогично протестировать через утилиту sysbench-tpcc) постараюсь сделать позже.  
