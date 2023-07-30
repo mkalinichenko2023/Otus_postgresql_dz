@@ -21,7 +21,9 @@
 1. С целью показать реализацию индекса для полнотекстового поиска создала новое поле в таблице tickets и заполнила его контактной информацией пассажира через вызов to_tsvector.  
 *alter table bookings.tickets add column tsv_contact_data tsvector;*  
 *update bookings.tickets set tsv_contact_data = to_tsvector('english',contact_data);*  
-Создала индекс для полнотекстового поиска по полю tsv_contact_data, попробовала найти пассажира по номеру телефона и проверила командой explain, что индекс задействован.  
+Создала индекс для полнотекстового поиска по полю tsv_contact_data, попробовала найти пассажира по номеру телефона и проверила командой explain, что индекс задействован.   
+*create index tickets_contact_srch on bookings.tickets using gin (tsv_contact_data);  
+explain select passenger_id, passenger_name, contact_data from bookings.tickets where tsv_contact_data@@ '+70556069198'::to_tsquery;*   
 ![Шаг4](/18_10_txt_ind.jpg)  
 1. Пример реализации индекса на часть таблицы сделала по таблице flights. В таблице есть поле status. Посмотрела, какие статусы есть в таблице и решила выделить в отдельный поиск рейсы, которые еще не выполнены (статус Scheduled). Проверила, что индекс используется.  
 *create index flights_status on bookings.flights(status) where status='Scheduled';*   
