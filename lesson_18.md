@@ -35,7 +35,10 @@
 where a.model['en']='"Boeing 737-300"' and s.fare_conditions='Business';*   
 ![Шаг4](/18_21_inner.jpg)  
 Выбираются строки, которые одновременно есть в первой и во второй таблице.  
-1. .  
+1. Для иллюстрации левостороннего соединения двух таблиц сделала выборку из таблиц аэропортов и рейсов. Выбрала аэропорты, в которые не прибывает ни один рейс.  
+*select a.airport_code,a.airport_name['en'],a.city['en'],a.timezone,f.flight_no,f.scheduled_departure,f.scheduled_arrival  
+from bookings.airports_data a  
+     left join bookings.flights f on a.airport_code=f.arrival_airport where f.arrival_airport is null;*  
 ![Шаг4](/18_22_left.jpg)  
 1. .  
 ![Шаг4](/.jpg)  
