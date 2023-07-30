@@ -50,7 +50,7 @@ from (select a.* from bookings.airports_data a left join bookings.flights f on a
      (select a.* from bookings.airports_data a left join bookings.flights f on a.airport_code=f.arrival_airport where f.arrival_airport is null) p2  
      on p1.airport_code=p2.airport_code;*  
 ![Шаг4](/18_23_full.jpg)  
-Выбираются все строки из первой таблицы и строки из втрой таблицы.   
+Выбираются все строки из первой таблицы и строки из второй таблицы.   
 1. Запрос с разными типами соединений выбирает модели самолетов, которые не использованы в рейсах, и считает кол-во мест в них.   
 *select a.model,count(case when s.fare_conditions='Business' then 1 else null end) B_cnt,count(case when s.fare_conditions='Business' then null else 1 end) E_cnt  
 from bookings.aircrafts_data a  
