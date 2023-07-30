@@ -55,7 +55,12 @@ from bookings.aircrafts_data a
 where f.aircraft_code is null  
 group by a.model;*  
 ![Шаг4](/18_24_diff.jpg)  
-1.  .  
+1. Реализовать кросс соединение двух или более таблиц. Ничего особо разумного по данной демо базе в голову не пришло. Сделала кросс соединение моделей самолетов со сгенерированной таблицей дат, может пригодится для отчетности.  
+*select * from (  
+select a.model['en'],grid_date  
+from bookings.aircrafts_data a  
+     cross join generate_series(date'2017-07-01',date'2017-07-05','1 day') grid_date  
+order by 1,2) as q limit 15;*  
 ![Шаг4](/18_23_full.jpg)  
 
 
