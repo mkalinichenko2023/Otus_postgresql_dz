@@ -40,7 +40,22 @@ where a.model['en']='"Boeing 737-300"' and s.fare_conditions='Business';*
 from bookings.airports_data a  
      left join bookings.flights f on a.airport_code=f.arrival_airport where f.arrival_airport is null;*  
 ![Шаг4](/18_22_left.jpg)  
-1. .  
-![Шаг4](/.jpg)  
+1. В качестве примера полного соединения двух таблиц сделала выборку аэропортов, которых нет в таблице рейсов как по отправлению, так и по прибытию.  
+*select p1.airport_code,p1.airport_name['en'],p2.airport_code,p2.airport_name['en']  
+from (select a.* from bookings.airports_data a left join bookings.flights f on a.airport_code=f.departure_airport where f.departure_airport is null) p1  
+     inner join  
+     (select a.* from bookings.airports_data a left join bookings.flights f on a.airport_code=f.arrival_airport where f.arrival_airport is null) p2  
+     on p1.airport_code=p2.airport_code;*  
+![Шаг4](/18_23_full.jpg)  
+1. Запрос с разными типами соединений выбирает модели самолетов, которые не использованы в рейсах, и считает кол-во мест в них.   
+*select a.model,count(case when s.fare_conditions='Business' then 1 else null end) B_cnt,count(case when s.fare_conditions='Business' then null else 1 end) E_cnt  
+from bookings.aircrafts_data a  
+              inner join bookings.seats s on a.aircraft_code=s.aircraft_code  
+              left join bookings.flights f on a.aircraft_code=f.aircraft_code  
+where f.aircraft_code is null  
+group by a.model;*  
+![Шаг4](/18_24_diff.jpg)  
+1.  .  
+![Шаг4](/18_23_full.jpg)  
 
 
