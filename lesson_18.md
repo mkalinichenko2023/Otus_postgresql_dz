@@ -31,7 +31,7 @@ explain select passenger_id, passenger_name, contact_data from bookings.tickets 
 1. Индекс на несколько полей таже создала по таблице flights. Выбрала поля дата прибытия и номер рейса. Проверила, что индекс используется.   
 ![Шаг4](/18_12_2field_ind.jpg)  
 ## Вариант 2. Запросы с различными типами соединений. ##  
-1. Прямое соединение двух или более таблиц выполнила для запроса поиска номеров мест бизнес класса для опеределенной модели самолета.  
+1. Прямое соединение двух или более таблиц выполнила для запроса поиска номеров мест бизнес класса для определенной модели самолета.  
 *select * from bookings.aircrafts_data a  
               inner join bookings.seats s on a.aircraft_code=s.aircraft_code  
 where a.model['en']='"Boeing 737-300"' and s.fare_conditions='Business';*   
@@ -40,8 +40,9 @@ where a.model['en']='"Boeing 737-300"' and s.fare_conditions='Business';*
 1. Для иллюстрации левостороннего соединения двух таблиц сделала выборку из таблиц аэропортов и рейсов. Выбрала аэропорты, в которые не прибывает ни один рейс.  
 *select a.airport_code,a.airport_name['en'],a.city['en'],a.timezone,f.flight_no,f.scheduled_departure,f.scheduled_arrival  
 from bookings.airports_data a  
-     left join bookings.flights f on a.airport_code=f.arrival_airport where f.arrival_airport is null;*  
-![Шаг4](/18_22_left.jpg)  
+     left join bookings.flights f on a.airport_code=f.arrival_airport where f.arrival_airport is null;*
+![Шаг4](/18_22_left.jpg)
+Выбираются строки, которые есть в первой таблице, но не обязательно есть во второй.   
 1. В качестве примера полного соединения двух таблиц сделала выборку аэропортов, которых нет в таблице рейсов как по отправлению, так и по прибытию.  
 *select p1.airport_code,p1.airport_name['en'],p2.airport_code,p2.airport_name['en']  
 from (select a.* from bookings.airports_data a left join bookings.flights f on a.airport_code=f.departure_airport where f.departure_airport is null) p1  
@@ -49,6 +50,7 @@ from (select a.* from bookings.airports_data a left join bookings.flights f on a
      (select a.* from bookings.airports_data a left join bookings.flights f on a.airport_code=f.arrival_airport where f.arrival_airport is null) p2  
      on p1.airport_code=p2.airport_code;*  
 ![Шаг4](/18_23_full.jpg)  
+Выбираются все строки из первой таблицы и строки из втрой таблицы.   
 1. Запрос с разными типами соединений выбирает модели самолетов, которые не использованы в рейсах, и считает кол-во мест в них.   
 *select a.model,count(case when s.fare_conditions='Business' then 1 else null end) B_cnt,count(case when s.fare_conditions='Business' then null else 1 end) E_cnt  
 from bookings.aircrafts_data a  
@@ -56,7 +58,8 @@ from bookings.aircrafts_data a
               left join bookings.flights f on a.aircraft_code=f.aircraft_code  
 where f.aircraft_code is null  
 group by a.model;*  
-![Шаг4](/18_24_diff.jpg)  
+![Шаг4](/18_24_diff.jpg)   
+Используются inner join и left join.    
 1. Реализовать кросс соединение двух или более таблиц. Ничего особо разумного по данной демо базе в голову не пришло. Сделала кросс соединение моделей самолетов со сгенерированной таблицей дат, может пригодится для отчетности.  
 *select * from (  
 select a.model['en'],grid_date  
@@ -64,5 +67,4 @@ from bookings.aircrafts_data a
      cross join generate_series(date'2017-07-01',date'2017-07-05','1 day') grid_date  
 order by 1,2) as q limit 15;*  
 ![Шаг4](/18_23_full.jpg)  
-
-
+Выполняется так называемое декартово произведение таблиц.  
